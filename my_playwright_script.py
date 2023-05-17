@@ -8,10 +8,18 @@ from bs4 import BeautifulSoup
 from datetime import date, timedelta
 import subprocess
 
+# Set the base directory
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Set the download path
-vault = '/home/jake/Coding_Projects/background_changer/vault'
-favorites_dir = '/home/jake/Coding_Projects/background_changer/favorites'
-favorite_themes_dir = '/home/jake/Coding_Projects/background_changer/favorite_themes'
+vault = os.path.join(BASE_DIR, 'vault')
+favorites_dir = os.path.join(BASE_DIR, 'favorites')
+favorite_themes_dir = os.path.join(BASE_DIR, 'favorite_themes')
+
+def setup_directories():
+    for directory in [vault, favorites_dir, favorite_themes_dir]:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
 
 def download_wallpaper():
     while True:
@@ -76,6 +84,10 @@ def change_terminal_theme(image_path):
     # Set the image as the terminal theme
     subprocess.run(['wal', '-i', image_path])
 
+def change_terminal_colors(image_path):
+    # Set the terminal colors without changing the background
+    subprocess.run(['wal', '-n', '-i', image_path])
+
 def print_menu():
     print("\n" + "="*40)
     print("  WALLPAPER & TERMINAL THEME CHANGER")
@@ -108,14 +120,14 @@ def main():
             break
 
         elif choice== '3':
-            # Change the terminal theme to a random image in favorites
-            favorites = os.listdir(favorites_dir)
+            # Change the terminal colors to a random image in favorites
+            favorites = os.listdir(favorite_themes_dir)
             if not favorites:
                 print('No images in favorites.')
                 continue
             random_image = random.choice(favorites)
-            image_path = os.path.join(favorites_dir, random_image)
-            change_terminal_theme(image_path)
+            image_path = os.path.join(favorite_themes_dir, random_image)
+            change_terminal_colors(image_path)
             break
 
         elif choice == '4':
