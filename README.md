@@ -1,4 +1,3 @@
-# Wallpaper-and-Terminal-Customizer
 # Wallpaper & Terminal Theme Changer
 
 ## Overview
